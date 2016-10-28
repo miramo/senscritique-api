@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "node build/server.js",
+    "dev": "nodemon build/server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.76.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "name": "SC-API",
+  "version": "1.0.0",
+  "main": "build/server.js",
+  "author": "Maxime MIRAMOND",
+  "license": "GPL-3.0+"
+}
