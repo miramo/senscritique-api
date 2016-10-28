@@ -1,7 +1,10 @@
 ---
 engines:
-  fixme:
+  tslint:
     enabled: true
 ratings:
-  paths: []
-exclude_paths: []
+  paths:
+  - "**.ts"
+exclude_paths:
+- node_modules/**/*
+- typings/**/*
