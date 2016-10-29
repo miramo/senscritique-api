@@ -22,7 +22,7 @@ cache:
   - $HOME/.yarn-cache
 
 install:
-  - time yarn
+  - yarn
 
 script:
-  - time yarn test
+  - npm test
