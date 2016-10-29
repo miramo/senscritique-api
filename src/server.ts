@@ -33,7 +33,7 @@ class Server {
         this.app.use('/', routes);
     }
 
-    onStart() {
+    private onStart() {
         const server = this.app.listen(this.nodePort, () => {
             let host:string = server.address().address;
             let port:number = server.address().port;
