@@ -11,8 +11,8 @@
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
-  "name": "SC-API",
-  "version": "1.0.0",
+  "name": "senscritique-api",
+  "version": "0.1.0",
   "main": "build/server.js",
   "author": "Maxime MIRAMOND",
   "license": "GPL-3.0+"

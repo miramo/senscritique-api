@@ -20,3 +20,9 @@ before_install:
 cache:
   directories:
   - $HOME/.yarn-cache
+
+install:
+  - time yarn
+
+script:
+  - time yarn test
