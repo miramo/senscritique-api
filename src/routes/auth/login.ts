@@ -27,11 +27,11 @@ export = (req : express.Request, res : express.Response) => {
                 if (!error && response.statusCode == 200) {
                     res.json(JSON.parse(body));
                 } else {
-                    res.sendStatus(401);
+                    res.sendStatus(response.statusCode);
                 }
             });
         } else {
-            res.sendStatus(401);
+            res.sendStatus(response.statusCode);
         }
     });
 };
