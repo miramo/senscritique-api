@@ -9,7 +9,7 @@ import {Settings} from "../../settings";
 const request = require('request');
 const imdb = require('imdb-api');
 
-class Rate {
+class SingleRate {
     public static rateByImdbId(rateId: string, res : express.Response, headerToken: string, rating: string, date: string) {
         imdb.getById(rateId).then(function(data: any) {
             request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${data.title}`, function (error: any, response: any, body: any) {
@@ -18,7 +18,7 @@ class Rate {
 
                     let scProduct: any = _.find(products, { 'year_of_production': data.year });
                     if (scProduct)
-                        Rate.rateByInternalId(scProduct.id, res, headerToken, rating, date);
+                        SingleRate.rateByInternalId(scProduct.id, res, headerToken, rating, date);
                     else
                         res.sendStatus(response.statusCode);
                 } else {
@@ -49,11 +49,11 @@ class Rate {
         let rateId: any = req.params.rateId;
 
         if (rateId.match(/tt\d+/i))
-            Rate.rateByImdbId(rateId, res, headerToken, rating, date);
+            SingleRate.rateByImdbId(rateId, res, headerToken, rating, date);
         else
-            Rate.rateByInternalId(rateId, res, headerToken, rating, date);
+            SingleRate.rateByInternalId(rateId, res, headerToken, rating, date);
     }
 
 }
 
-export = Rate.postRate
+export = SingleRate.postRate

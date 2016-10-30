@@ -4,7 +4,9 @@
 
 const users = require('express').Router();
 const me = require('./me');
+const single = require('./single');
 
 users.get('/me', me);
+users.get('/:userId', single);
 
 export = users;
