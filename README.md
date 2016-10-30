@@ -42,7 +42,7 @@ yarn start
 ```
 
 ## API Documentation
-Coming soon
+See [wiki SensCritique API](https://github.com/miramo/senscritique-api/wiki/1-API)
 
 ## Testing the API
 You can test the API using [Postman](https://chrome.google.com/webstore/detail/postman-rest-client-packa/fhbjgbiflinjbdggehcddcbncdddomop)
