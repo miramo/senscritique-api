@@ -5,6 +5,7 @@
 import * as express from "express";
 import * as _ from "lodash";
 import {Settings} from "../../settings";
+import {Utils} from "../../utils";
 
 const request = require("request");
 const imdb = require("imdb-api");
@@ -14,15 +15,12 @@ class SingleMovie {
         imdb.getById(movieId).then(function(data: any) {
             request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${data.title}&filter=movies`, function (error: any, response: any, body: any) {
                 if (!error && response.statusCode === 200) {
-                    let products: any = JSON.parse(body).products;
+                    let movie: any = _.find(JSON.parse(body).products, { "year_of_production": data.year });
 
-                    let movie: any = _.find(products, { "year_of_production": data.year });
-                    if (movie) {
-                        let product = { "product": movie };
-                        res.json(product);
-                    } else {
+                    if (movie)
+                        res.json({ "product": movie });
+                    else
                         res.sendStatus(404);
-                    }
                 } else {
                     res.sendStatus(response.statusCode);
                 }
@@ -30,18 +28,14 @@ class SingleMovie {
         });
     }
 
-    public static getMovie(movieId: number, res: express.Response, headerToken: string) {
-        request.get(Settings.SC_BASE_API_URL + `/products/${movieId}?&access_token=${headerToken}`, function (error: any, response: any, body: any) {
-            if (!error && response.statusCode === 200) {
-                let jsonBody: any = JSON.parse(body);
-
-                if (jsonBody.product.type_id === 1)
-                    res.json(jsonBody);
-                else
-                    res.status(400).json({ message: "This is not a movie" });
-            } else {
-                res.sendStatus(response.statusCode);
-            }
+    public static async getMovie(movieId: number, res: express.Response, headerToken: string) {
+        await Utils.getSCProduct(movieId, headerToken).then((data: [boolean, any]) => {
+            if (data == null)
+                res.sendStatus(400);
+            else if (data[0])
+                res.json(data[1]);
+            else if (!data[0])
+                res.sendStatus(data[1]);
         });
     }
 
@@ -49,13 +43,11 @@ class SingleMovie {
         let headerToken: string = req.get(Settings.HEADER_TOKEN);
         let movieId: any = req.params.movieId;
 
-        if (movieId.match(/tt\d+/i)) {
+        if (movieId.match(/tt\d+/i))
             SingleMovie.getImdbMovie(movieId, res, headerToken);
-        } else {
+        else
             SingleMovie.getMovie(movieId, res, headerToken);
-        }
     }
-
 }
 
 export = SingleMovie.getSingle;

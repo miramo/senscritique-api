@@ -7,7 +7,7 @@ import {Settings} from "../../settings";
 
 const request = require("request");
 
-const FILTER_TYPE = {
+const FILTER_TYPE: any = {
     "undefined" : "",
     "movie"     : "movies",
     "show"      : "tvshows",

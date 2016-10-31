@@ -4,17 +4,17 @@
 
 import * as express from "express";
 import {Settings} from "../../settings";
+import {Utils} from "../../utils";
 
-const request = require("request");
-
-export = (req: express.Request, res: express.Response) => {
+export = async function (req: express.Request, res: express.Response) {
     let headerToken = req.get(Settings.HEADER_TOKEN);
 
-    request.get(Settings.SC_BASE_API_URL + `/products/popular?&access_token=${headerToken}&type_id=1`, function (error: any, response: any, body: any) {
-        if (!error && response.statusCode === 200) {
-            res.json(JSON.parse(body));
-        } else {
-            res.sendStatus(response.statusCode);
-        }
+    await Utils.getSCProductsPopular(ProductTypes.Movie, headerToken).then((data: [boolean, any]) => {
+        if (data == null)
+            res.sendStatus(400);
+        else if (data[0])
+            res.json(data[1]);
+        else if (!data[0])
+            res.sendStatus(data[1]);
     });
 };
