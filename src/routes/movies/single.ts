@@ -12,11 +12,11 @@ const imdb = require('imdb-api');
 class SingleMovie {
     public static getImdbMovie(movieId: string, res : express.Response, headerToken: string) {
         imdb.getById(movieId).then(function(data: any) {
-            request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${data.title}`, function (error: any, response: any, body: any) {
+            request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${data.title}&filter=movies`, function (error: any, response: any, body: any) {
                 if (!error && response.statusCode == 200) {
                     let products: any = JSON.parse(body).products;
 
-                    let movie: any = _.find(products, { 'type_id': 1, 'year_of_production': data.year });
+                    let movie: any = _.find(products, { 'year_of_production': data.year });
                     if (movie) {
                         let product = { "product": movie };
                         res.json(product);

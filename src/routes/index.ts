@@ -9,6 +9,7 @@ const status = require('./status');
 const login = require('./login');
 const users = require('./users');
 const movies = require('./movies');
+const search = require('./search');
 const rate = require('./rate');
 
 //Middleware
@@ -18,6 +19,7 @@ routes.use(function(req: express.Request, res: express.Response, next: express.N
 
 routes.use('/users', users);
 routes.use('/movies', movies);
+routes.use('/search', search);
 routes.use('/rate', rate);
 
 routes.get('/status', status);
