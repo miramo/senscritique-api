@@ -5,9 +5,10 @@
 import * as express from "express";
 import {Settings} from "../../settings";
 import {Utils} from "../../utils";
+import {ProductTypes} from "../../productTypes";
 
 export = async function (req: express.Request, res: express.Response) {
-    let headerToken = req.get(Settings.HEADER_TOKEN);
+    let headerToken: string = req.get(Settings.HEADER_TOKEN);
 
     await Utils.getSCProductsPopular(ProductTypes.Movie, headerToken).then((data: [boolean, any]) => {
         if (data == null)
