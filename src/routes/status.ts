@@ -4,6 +4,6 @@
 
 import * as express from "express";
 
-export = (req : express.Request, res : express.Response) => {
+export = (req: express.Request, res: express.Response) => {
     res.sendStatus(200);
 };

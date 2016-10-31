@@ -28,15 +28,15 @@ class Server {
     }
 
     private routes() {
-        let routes = require('./routes');
+        let routes = require("./routes");
 
-        this.app.use('/', routes);
+        this.app.use("/", routes);
     }
 
     private onStart() {
         const server = this.app.listen(this.nodePort, () => {
-            let host:string = server.address().address;
-            let port:number = server.address().port;
+            let host: string = server.address().address;
+            let port: number = server.address().port;
 
             console.log(`http://${host}:${port}`);
         });
