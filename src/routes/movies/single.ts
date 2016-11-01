@@ -4,9 +4,9 @@
 
 import * as express from "express";
 import * as _ from "lodash";
-import {Settings} from "../../settings";
-import {Utils} from "../../utils";
-import {ProductTypes} from "../../productTypes";
+import * as Utils from "../../utils";
+import Settings from "../../settings";
+import ProductTypes from "../../productTypes";
 
 const request = require("request");
 const imdb = require("imdb-api");

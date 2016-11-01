@@ -3,8 +3,8 @@
  */
 
 import * as express from "express";
-import {Settings} from "../../settings";
-import {ProductTypes} from "../../productTypes";
+import Settings from "../../settings";
+import ProductTypes from "../../productTypes";
 
 const request = require("request");
 

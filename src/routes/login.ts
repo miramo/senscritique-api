@@ -3,7 +3,7 @@
  */
 
 import * as express from "express";
-import {Settings} from "../settings";
+import Settings from "../settings";
 
 const request = require("request");
 const crypto = require("crypto");

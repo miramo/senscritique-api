@@ -3,9 +3,9 @@
  */
 
 import * as express from "express";
-import {Settings} from "../../settings";
-import {Utils} from "../../utils";
-import {ProductTypes} from "../../productTypes";
+import * as Utils from "../../utils";
+import Settings from "../../settings";
+import ProductTypes from "../../productTypes";
 
 export = async function (req: express.Request, res: express.Response) {
     let headerToken: string = req.get(Settings.HEADER_TOKEN);

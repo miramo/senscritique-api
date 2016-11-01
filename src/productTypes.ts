@@ -2,7 +2,7 @@
  * Created by KOALA on 31/10/2016.
  */
 
-export const enum ProductTypes {
+const enum ProductTypes {
     Movie = 1,
     Book,
     Game,
@@ -10,3 +10,5 @@ export const enum ProductTypes {
     Comic,
     Music
 }
+
+export default ProductTypes;

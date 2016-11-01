@@ -18,7 +18,7 @@ Neither I, nor any developer who contributed to this project, accept any kind of
 Clone the repo: `git clone git@github.com:miramo/senscritique-api.git`
 
 ### Requirements
-* [Node](https://nodejs.org)
+* [Node 6.9.+](https://nodejs.org)
 * [Yarn](https://yarnpkg.com)
 
 ### Install dependencies

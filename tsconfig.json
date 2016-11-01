@@ -2,13 +2,19 @@
     "compileOnSave": true,
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es6",
+        "moduleResolution": "node",
+        "target": "ES6",
+        "outDir": "./build",
+        "pretty": true,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "moduleResolution": "node",
-        "outDir": "./build/.",
-        "sourceMap": true
+        "sourceMap": false,
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
     "exclude": [
         "typings/browser.d.ts",

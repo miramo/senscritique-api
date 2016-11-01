@@ -4,7 +4,7 @@
 
 import * as express from "express";
 import * as _ from "lodash";
-import {Settings} from "../../settings";
+import Settings from "../../settings";
 
 const request = require("request");
 const imdb = require("imdb-api");
