@@ -13,9 +13,9 @@ export = async function (req: express.Request, res: express.Response) {
     await Utils.getSCProductsPopular(ProductTypes.Movie, headerToken).then((data: [boolean, any]) => {
         if (data == null)
             res.sendStatus(400);
-        else if (data[0])
-            res.json(data[1]);
         else if (!data[0])
             res.sendStatus(data[1]);
+        else if (data[0])
+            res.json(data[1]);
     });
 };
