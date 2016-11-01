@@ -7,7 +7,7 @@
 # SensCritique API [![Build Status](https://travis-ci.org/miramo/senscritique-api.svg?branch=master)](https://travis-ci.org/miramo/senscritique-api) [![Dependency Status](https://david-dm.org/miramo/senscritique-api.svg)](https://david-dm.org/miramo/senscritique-api) [![Code Climate](https://codeclimate.com/github/miramo/senscritique-api/badges/gpa.svg)](https://codeclimate.com/github/miramo/senscritique-api) [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://www.typescriptlang.org/) [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://opensource.org/licenses/GPL-3.0/)
 > An unofficial API for SensCritique
 
-A wrapper over the API used by SensCritique in their mobile applications.
+This is a wrapper over the API used by SensCritique in their mobile applications.
 
 ## Disclaimer
 Neither I, nor any developer who contributed to this project, accept any kind of liability for your use of this library.
