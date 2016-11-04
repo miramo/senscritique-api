@@ -10,34 +10,36 @@ import Settings from "../../settings";
 import defaults = require("lodash/defaults");
 
 const imdb = require("imdb-api");
-const tmdb = require("sharelib-tmdbv3").init(Settings.TMDB_API_KEY, "fr");
 
-function rateMovieByImdbId(rateId: string, res: express.Response, headerToken: string, rating: string, date: string) {
-    tmdb.movie.info(rateId, function(errorTmdb: any, dataTmdb: any) {
-        if (dataTmdb) {
-            request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(dataTmdb.title)}&filter=movies`, function (error: any, response: any, body: any) {
-                if (!error && response.statusCode === 200) {
-                    let scProducts: any = JSON.parse(body).products;
-                    let scProduct: any = _.find(scProducts, function (item: any) {
-                        let yearDataReleaseDate: number = +dataTmdb.release_date.split("-")[0];
-                        if (item.release_date != null && item.year_of_production != null)
-                            return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
-                        if (item.release_date != null)
-                            return +item.release_date.split("-")[0] === yearDataReleaseDate;
-                        if (item.year_of_production != null)
-                            return item.year_of_production === yearDataReleaseDate;
-                        return false;
-                    });
-                    if (scProduct)
-                        rateByInternalId(scProduct.id, res, headerToken, rating, date);
-                    else
-                        res.sendStatus(404);
-                } else {
-                    res.sendStatus(response.statusCode);
-                }
-            });
-        } else {
-            res.sendStatus(500);
+function rateMovieByImdbId(imdbId: string, res: express.Response, headerToken: string, rating: string, date: string) {
+    request.get(Settings.TMDB_BASE_API_URL + `/movie/${imdbId}?api_key=${Settings.TMDB_API_KEY}&language=fr`, function (errorTmdb: any, responseTmdb: any, bodyTmdb: any) {
+        if (!errorTmdb && responseTmdb.statusCode === 200) {
+            let dataTmdb = JSON.parse(bodyTmdb);
+            if (dataTmdb) {
+                request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(dataTmdb.title)}&filter=movies`, function (error: any, response: any, body: any) {
+                    if (!error && response.statusCode === 200) {
+                        let scProducts: any = JSON.parse(body).products;
+                        let scProduct: any = _.find(scProducts, function (item: any) {
+                            let yearDataReleaseDate: number = +dataTmdb.release_date.split("-")[0];
+                            if (item.release_date != null && item.year_of_production != null)
+                                return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
+                            if (item.release_date != null)
+                                return +item.release_date.split("-")[0] === yearDataReleaseDate;
+                            if (item.year_of_production != null)
+                                return item.year_of_production === yearDataReleaseDate;
+                            return false;
+                        });
+                        if (scProduct)
+                            rateByInternalId(scProduct.id, res, headerToken, rating, date);
+                        else
+                            res.sendStatus(404);
+                    } else {
+                        res.sendStatus(response.statusCode);
+                    }
+                });
+            } else {
+                res.sendStatus(500);
+            }
         }
     });
 }
@@ -63,31 +65,34 @@ async function rateShowByImdbId(rateId: string, res: express.Response, headerTok
         else if (data[0] && data[1] && data[1].tv_results[0] && data[1].tv_results[0].id) {
             let tmdbId = data[1].tv_results[0].id;
 
-            tmdb.tv.info(tmdbId, function(errorTmdb: any, dataTmdb: any) {
-                if (dataTmdb) {
-                    request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(dataTmdb.name)}&filter=tvshows`, function (error: any, response: any, body: any) {
-                        if (!error && response.statusCode === 200) {
-                            let scProducts: any = JSON.parse(body).products;
-                            let scProduct: any = _.find(scProducts, function (item: any) {
-                                let yearDataReleaseDate: number = +dataTmdb.first_air_date.split("-")[0];
-                                if (item.release_date != null && item.year_of_production != null)
-                                    return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
-                                if (item.release_date != null)
-                                    return +item.release_date.split("-")[0] === yearDataReleaseDate;
-                                if (item.year_of_production != null)
-                                    return item.year_of_production === yearDataReleaseDate;
-                                return false;
-                            });
-                            if (scProduct)
-                                rateByInternalId(scProduct.id, res, headerToken, rating, date);
-                            else
-                                res.sendStatus(404);
-                        } else {
-                            res.sendStatus(response.statusCode);
-                        }
-                    });
-                } else {
-                    res.sendStatus(500);
+            request.get(Settings.TMDB_BASE_API_URL + `/tv/${tmdbId}?api_key=${Settings.TMDB_API_KEY}&language=fr`, function (errorTmdb: any, responseTmdb: any, bodyTmdb: any) {
+                if (!errorTmdb && responseTmdb.statusCode === 200) {
+                    let dataTmdb = JSON.parse(bodyTmdb);
+                    if (dataTmdb) {
+                        request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(dataTmdb.name)}&filter=tvshows`, function (error: any, response: any, body: any) {
+                            if (!error && response.statusCode === 200) {
+                                let scProducts: any = JSON.parse(body).products;
+                                let scProduct: any = _.find(scProducts, function (item: any) {
+                                    let yearDataReleaseDate: number = +dataTmdb.first_air_date.split("-")[0];
+                                    if (item.release_date != null && item.year_of_production != null)
+                                        return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
+                                    if (item.release_date != null)
+                                        return +item.release_date.split("-")[0] === yearDataReleaseDate;
+                                    if (item.year_of_production != null)
+                                        return item.year_of_production === yearDataReleaseDate;
+                                    return false;
+                                });
+                                if (scProduct)
+                                    rateByInternalId(scProduct.id, res, headerToken, rating, date);
+                                else
+                                    res.sendStatus(404);
+                            } else {
+                                res.sendStatus(response.statusCode);
+                            }
+                        });
+                    } else {
+                        res.sendStatus(500);
+                    }
                 }
             });
         } else {

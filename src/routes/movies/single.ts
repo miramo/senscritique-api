@@ -9,32 +9,36 @@ import Settings from "../../settings";
 import ProductTypes from "../../productTypes";
 
 const request = require("request");
-const tmdb = require("sharelib-tmdbv3").init(Settings.TMDB_API_KEY, "fr");
 
-function getImdbMovie(movieId: string, res: express.Response, headerToken: string) {
-    tmdb.movie.info(movieId, function(error: any, data: any) {
-        if (!error && data) {
-            request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(data.title)}&filter=movies`, function (error: any, response: any, body: any) {
-                if (!error && response.statusCode === 200) {
-                    let movie: any = _.find(JSON.parse(body).products, function (item: any) {
-                        let yearDataReleaseDate: number = +data.release_date.split("-")[0];
-                        if (item.release_date != null && item.year_of_production != null)
-                            return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
-                        if (item.release_date != null)
-                            return +item.release_date.split("-")[0] === yearDataReleaseDate;
-                        if (item.year_of_production != null)
-                            return item.year_of_production === yearDataReleaseDate;
-                        return false;
-                    });
+function getImdbMovie(imdbId: string, res: express.Response, headerToken: string) {
+    request.get(Settings.TMDB_BASE_API_URL + `/movie/${imdbId}?api_key=${Settings.TMDB_API_KEY}&language=fr`, function (errorTmdb: any, responseTmdb: any, bodyTmdb: any) {
+        if (!errorTmdb && responseTmdb.statusCode === 200) {
+            let dataTmdb = JSON.parse(bodyTmdb);
+            if (dataTmdb) {
+                request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(dataTmdb.title)}&filter=movies`, function (error: any, response: any, body: any) {
+                    if (!error && response.statusCode === 200) {
+                        let movie: any = _.find(JSON.parse(body).products, function (item: any) {
+                            let yearDataReleaseDate: number = +dataTmdb.release_date.split("-")[0];
+                            if (item.release_date != null && item.year_of_production != null)
+                                return ((yearDataReleaseDate >= item.year_of_production) && (yearDataReleaseDate <= +item.release_date.split("-")[0]));
+                            if (item.release_date != null)
+                                return +item.release_date.split("-")[0] === yearDataReleaseDate;
+                            if (item.year_of_production != null)
+                                return item.year_of_production === yearDataReleaseDate;
+                            return false;
+                        });
 
-                    if (movie)
-                        res.json({ "product": movie });
-                    else
-                        res.sendStatus(404);
-                } else {
-                    res.sendStatus(response.statusCode);
-                }
-            });
+                        if (movie)
+                            res.json({ "product": movie });
+                        else
+                            res.sendStatus(404);
+                    } else {
+                        res.sendStatus(response.statusCode);
+                    }
+                });
+            } else {
+                res.sendStatus(500);
+            }
         } else {
             res.status(400).json({ message: "This is not a movie" });
         }
