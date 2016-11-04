@@ -682,6 +682,13 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+"git+https://git@github.com/kobe1980/node-tmdb.git":
+  name sharelib-tmdbv3
+  version "0.1.2"
+  resolved "git+https://git@github.com/kobe1980/node-tmdb.git#ffc9c97f127a7222ac08e266f6f8078760893267"
+  dependencies:
+    request "2.9.x"
+
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npmjs.org/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"
@@ -1964,12 +1971,6 @@ timed-out@^2.0.0:
 timed-out@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/timed-out/-/timed-out-3.0.0.tgz#ff88de96030ce960eabd42487db61d3add229273"
-
-"tmdbv3@git+https://git@github.com/raqqa/node-tmdb.git":
-  version "0.1.2"
-  resolved "git+https://git@github.com/raqqa/node-tmdb.git#99526f176ec25609c9898d34a0947356307da8a8"
-  dependencies:
-    request "2.9.x"
 
 touch@^1.0.0, touch@1.0.0:
   version "1.0.0"

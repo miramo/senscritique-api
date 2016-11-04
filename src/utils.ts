@@ -3,8 +3,7 @@
  */
 
 import Settings from "./settings";
-
-const rp = require("request-promise");
+import * as rp from "request-promise";
 
 export async function getSCProduct(id: number, headerToken: string): Promise<[boolean, any]> {
     let data: [boolean, any] = null;

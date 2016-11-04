@@ -9,10 +9,9 @@ import Settings from "../../settings";
 import ProductTypes from "../../productTypes";
 
 const request = require("request");
-const tmdb = require("tmdbv3").init(Settings.TMDB_API_KEY);
+const tmdb = require("sharelib-tmdbv3").init(Settings.TMDB_API_KEY, "fr");
 
 function getImdbMovie(movieId: string, res: express.Response, headerToken: string) {
-    tmdb.setLanguage("fr");
     tmdb.movie.info(movieId, function(error: any, data: any) {
         if (!error && data) {
             request.get(Settings.SC_BASE_API_URL + `/search?&access_token=${headerToken}&query=${encodeURIComponent(data.title)}&filter=movies`, function (error: any, response: any, body: any) {

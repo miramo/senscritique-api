@@ -11,7 +11,7 @@
     "moment": "^2.15.2",
     "request": "^2.76.0",
     "request-promise": "^4.1.1",
-    "tmdbv3": "git+https://git@github.com/raqqa/node-tmdb.git",
+    "sharelib-tmdbv3": "github.com/kobe1980/node-tmdb.git",
     "typescript": "^2.0.6",
     "typings": "^1.5.0"
   },
